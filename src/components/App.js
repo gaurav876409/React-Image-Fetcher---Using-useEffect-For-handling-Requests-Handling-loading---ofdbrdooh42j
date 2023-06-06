@@ -1,10 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/App.css';
 import { Loader } from './Loader';
 import { PhotoFrame } from './PhotoFrame';
+
 const App = () => {
+    const [photoId, setPhotoId] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [photoData, setPhotoData] = useState(null);
   
-}
+    const handlePhotoIdChange = (event) => {
+      setPhotoId(event.target.value);
+    };
+  
+    const fetchPhotoData = () => {
+      setLoading(true);
+      fetch(`https://jsonplaceholder.typicode.com/photos/${photoId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setPhotoData(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching photo data:', error);
+          setLoading(false);
+        });
+    };
+  
+    return (
+      <div id="main">
+        <div className="input-container">
+          <label htmlFor="photo-id-input">Enter a number:</label>
+          <input
+            id="photo-id-input"
+            type="number"
+            value={photoId}
+            onChange={handlePhotoIdChange}
+          />
+          <button onClick={fetchPhotoData}>Fetch Photo</button>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : photoData ? (
+          <PhotoFrame url={photoData.url} title={photoData.title} />
+        ) : null}
+      </div>
+    );
+  };
 
 
 export default App;
