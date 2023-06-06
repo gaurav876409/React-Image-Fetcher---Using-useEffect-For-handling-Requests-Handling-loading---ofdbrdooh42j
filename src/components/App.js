@@ -31,7 +31,7 @@ const App = () => {
   return (
     <div id="main">
       <div className="input-container">
-        <label htmlFor="photo-id-input">Enter a number:</label>
+        <label htmlFor="photo-id-input">Id number</label>
         <input
           id="photo-id-input"
           type="number"
